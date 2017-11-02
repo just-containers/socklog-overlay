@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+SOCKLOG_VERSION="2.1.0"
+SOCKLOG_RELEASE="0"
+SOCKLOG_SRC="https://github.com/jprjr/socklog-static/releases/download/${SOCKLOG_VERSION}-${SOCKLOG_RELEASE}"
+
+PKGDIR=$(pwd)/pkg
+BUILDDIR=$(pwd)/builds
+DISTDIR=$(pwd)/dist
+
+mkdir -p "$PKGDIR"
+mkdir -p "$BUILDDIR"
+mkdir -p "$DISTDIR"
+
+declare -A targets
+targets[arm-linux-musleabi]=arm
+targets[arm-linux-musleabihf]=armhf
+targets[aarch64-linux-musl]=aarch64
+targets[x86_64-linux-musl]=amd64
+targets[i486-linux-musl]=x86
+
+for target in "${!targets[@]}" ; do
+    mkdir -p "$BUILDDIR"/"$target"
+    curl -R -L -o "$PKGDIR/socklog-${target}.tar.gz" \
+      "$SOCKLOG_SRC/socklog-${SOCKLOG_VERSION}-linux-${targets[$target]}.tar.gz"
+    tar -xzf "$PKGDIR/socklog-$target.tar.gz" \
+      -C "$BUILDDIR/$target"
+    rsync -av overlay-rootfs/ "$BUILDDIR/$target"
+
+    mkdir -p "$BUILDDIR"/$target/var/log/socklog/cron
+    mkdir -p "$BUILDDIR"/$target/var/log/socklog/daemon
+    mkdir -p "$BUILDDIR"/$target/var/log/socklog/debug
+    mkdir -p "$BUILDDIR"/$target/var/log/socklog/errors
+    mkdir -p "$BUILDDIR"/$target/var/log/socklog/everything
+    mkdir -p "$BUILDDIR"/$target/var/log/socklog/kernel
+    mkdir -p "$BUILDDIR"/$target/var/log/socklog/mail
+    mkdir -p "$BUILDDIR"/$target/var/log/socklog/messages
+    mkdir -p "$BUILDDIR"/$target/var/log/socklog/secure
+    mkdir -p "$BUILDDIR"/$target/var/log/socklog/user
+
+    tar -cvzf "$DISTDIR/socklog-overlay-${targets[$target]}.tar.gz" \
+      --owner 0 \
+      --group 0 \
+      -C "$BUILDDIR/${target}/" .
+done

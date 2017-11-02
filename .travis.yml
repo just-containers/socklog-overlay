@@ -1,0 +1,15 @@
+language: c
+compiler: gcc
+sudo: false
+dist: trusty
+
+
+install:
+  - wget -nv -O github-release.amd64.tar.bz2 https://github.com/aktau/github-release/releases/download/v0.6.2/linux-amd64-github-release.tar.bz2
+  - tar xf github-release.amd64.tar.bz2 --strip-components=3
+
+script:
+  - bash build
+
+after_success:
+  - bash upload
