@@ -44,3 +44,7 @@ Ideas I'd like to flesh out:
 
 * Setting an environment variable to specify number of files, size, etc
   * Right now this is just using the `s6-log` defaults - 10 files, ~100k per file
+
+## LICENSE
+
+ISC license, see `LICENSE.md`

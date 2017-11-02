@@ -2,7 +2,7 @@
 
 SOCKLOG_VERSION="2.1.0"
 SOCKLOG_RELEASE="0"
-SOCKLOG_SRC="https://github.com/jprjr/socklog-static/releases/download/${SOCKLOG_VERSION}-${SOCKLOG_RELEASE}"
+SOCKLOG_SRC="https://github.com/just-containers/socklog-static/releases/download/v${SOCKLOG_VERSION}-${SOCKLOG_RELEASE}"
 
 PKGDIR=$(pwd)/pkg
 BUILDDIR=$(pwd)/builds
