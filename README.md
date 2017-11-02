@@ -48,3 +48,6 @@ Ideas I'd like to flesh out:
 ## LICENSE
 
 ISC license, see `LICENSE.md`
+
+Binary downloads include a copy of `socklog`, which is released under
+a 3-clause BSD license, which is included in the download.
