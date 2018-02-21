@@ -23,10 +23,17 @@ REPONAME=$(echo ${TRAVIS_REPO_SLUG} | cut -d"/" -f2)
 # binaries
 for i in dist/*.tar.gz; do
   name=$(basename ${i})
+  gpg -u 0x3B2FD161 --output "${i}.sig" --detach-sig "${i}"
   ./github-release upload \
     --user "${USERNAME}" \
     --repo "${REPONAME}" \
     --tag "${TRAVIS_TAG}" \
     --name "${name}" \
     --file "${i}"
+  ./github-release upload \
+    --user "${USERNAME}" \
+    --repo "${REPONAME}" \
+    --tag "${TRAVIS_TAG}" \
+    --name "${name}.sig" \
+    --file "${i}.sig"
 done

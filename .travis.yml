@@ -7,6 +7,10 @@ dist: trusty
 install:
   - wget -nv -O github-release.amd64.tar.bz2 https://github.com/aktau/github-release/releases/download/v0.6.2/linux-amd64-github-release.tar.bz2
   - tar xf github-release.amd64.tar.bz2 --strip-components=3
+  - openssl aes-256-cbc -K $OPENSSL_KEY -iv $OPENSSL_IV -in keys.tar.xz.enc -out keys.tar.xz -d
+  - tar xf keys.tar.xz
+  - gpg --import keys/public.key
+  - gpg --allow-secret-key-import --import keys/private.key
 
 script:
   - bash build
