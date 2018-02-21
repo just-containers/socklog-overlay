@@ -12,11 +12,11 @@ Installation is similar to installing the `s6-overlay`:
 FROM ubuntu
 
 # Install s6-overlay
-ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.1.1/s6-overlay-amd64.tar.gz /tmp/
+ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.2.2/s6-overlay-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
 
 # Install socklog-overlay
-ADD https://github.com/just-containers/socklog-overlay/releases/download/v2.1.0-0/socklog-overlay-amd64.tar.gz /tmp/
+ADD https://github.com/just-containers/socklog-overlay/releases/download/v2.1.0-1/socklog-overlay-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/socklog-overlay-amd64.tar.gz -C /
 
 ENTRYPOINT ["/init"]
@@ -44,6 +44,20 @@ Ideas I'd like to flesh out:
 
 * Setting an environment variable to specify number of files, size, etc
   * Right now this is just using the `s6-log` defaults - 10 files, ~100k per file
+
+## Verifying Downloads
+
+The `socklog-overlay` releases are signed using `gpg`, you can import our public key:
+
+```bash
+$ curl https://keybase.io/justcontainers/key.asc | gpg --import
+```
+
+Then verify the downloaded files:
+
+```bash
+$ gpg --verify socklog-overlay-amd64.tar.gz.sig socklog-overlay-amd64.tar.gz
+```
 
 ## LICENSE
 
