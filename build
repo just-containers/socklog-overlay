@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-SOCKLOG_VERSION="2.1.0"
-SOCKLOG_RELEASE="0"
-SOCKLOG_SRC="https://github.com/just-containers/socklog-static/releases/download/v${SOCKLOG_VERSION}-${SOCKLOG_RELEASE}"
+SOCKLOG_VERSION="2.2.0"
+SOCKLOG_SRC="https://github.com/just-containers/socklog/releases/download/v$SOCKLOG_VERSION"
 
 PKGDIR=$(pwd)/pkg
 BUILDDIR=$(pwd)/builds
@@ -21,11 +20,12 @@ targets[i486-linux-musl]=x86
 
 for target in "${!targets[@]}" ; do
     mkdir -p "$BUILDDIR"/"$target"
-    curl -R -L -o "$PKGDIR/socklog-${target}.tar.gz" \
+    printf "Downloading socklog-${target}\n"
+    curl -s -R -L -o "$PKGDIR/socklog-${target}.tar.gz" \
       "$SOCKLOG_SRC/socklog-${SOCKLOG_VERSION}-linux-${targets[$target]}.tar.gz"
     tar -xzf "$PKGDIR/socklog-$target.tar.gz" \
       -C "$BUILDDIR/$target"
-    rsync -av overlay-rootfs/ "$BUILDDIR/$target"
+    rsync -a overlay-rootfs/ "$BUILDDIR/$target"
 
     mkdir -p "$BUILDDIR"/$target/var/log/socklog/cron
     mkdir -p "$BUILDDIR"/$target/var/log/socklog/daemon
