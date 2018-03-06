@@ -12,11 +12,11 @@ Installation is similar to installing the `s6-overlay`:
 FROM ubuntu
 
 # Install s6-overlay
-ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.2.2/s6-overlay-amd64.tar.gz /tmp/
+ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.4.0/s6-overlay-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
 
 # Install socklog-overlay
-ADD https://github.com/just-containers/socklog-overlay/releases/download/v2.1.0-1/socklog-overlay-amd64.tar.gz /tmp/
+ADD https://github.com/just-containers/socklog-overlay/releases/download/v2.2.0-0/socklog-overlay-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/socklog-overlay-amd64.tar.gz -C /
 
 ENTRYPOINT ["/init"]
@@ -64,4 +64,5 @@ $ gpg --verify socklog-overlay-amd64.tar.gz.sig socklog-overlay-amd64.tar.gz
 ISC license, see `LICENSE.md`
 
 Binary downloads include a copy of `socklog`, which is released under
-a 3-clause BSD license, which is included in the download.
+a 3-clause BSD license. Please see [COPYING](https://github.com/just-containers/socklog/blob/master/COPYING)
+for details.
