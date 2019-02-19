@@ -1,66 +1,15 @@
 #!/usr/bin/execlineb -P
 
+backtick -i -n LOGGING_SCRIPT
+{
+  pipeline { pipeline { s6-ls -0 -- /etc/socklog.rules } s6-sort -0 }
+  forstdin -0 -- i
+  importas -u i i
+  redirfd -rb 0 /etc/socklog.rules/${i}
+  s6-cat
+}
+
+importas -u -s LOGGING_SCRIPT LOGGING_SCRIPT
+
 s6-setuidgid nobody
-s6-log -b
-
--
-+^cron\.
-T
-/var/log/socklog/cron
-
--
-+^daemon\.
-T
-/var/log/socklog/daemon
-
--
-+^\.debug:
-/var/log/socklog/debug
-
--
-+\..err:
-+\.error:
-+\.emerg:
-+\.alert:
-+\.crit:
-T
-/var/log/socklog/errors
-
--
--auth\.
--authpriv\.
-T
-/var/log/socklog/everything
-
--
-+^kern\.
-T
-/var/log/socklog/kernel
-
--
-+^mail\.
-T
-/var/log/socklog/mail
-
--
-+\.info:
-+\.notice:
-+\.warn:
--^auth\.
--^authpriv\.
--^mail\.
--^news\.
--^cron\.
-T
-/var/log/socklog/messages
-
--
-+^auth\.
-+^authpriv\.
-T
-/var/log/socklog/secure
-
--
-+^user\.
-T
-/var/log/socklog/user
+s6-log -bp $LOGGING_SCRIPT

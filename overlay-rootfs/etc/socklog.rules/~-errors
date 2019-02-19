@@ -1,0 +1,8 @@
+-
++\..err:
++\.error:
++\.emerg:
++\.alert:
++\.crit:
+T
+/var/log/socklog/errors

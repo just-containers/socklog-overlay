@@ -1,0 +1,5 @@
+-
++^auth\.
++^authpriv\.
+T
+/var/log/socklog/secure

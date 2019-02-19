@@ -16,7 +16,7 @@ ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
 
 # Install socklog-overlay
-ADD https://github.com/just-containers/socklog-overlay/releases/download/v2.2.1-4/socklog-overlay-amd64.tar.gz /tmp/
+ADD https://github.com/just-containers/socklog-overlay/releases/download/v3.0.0-1/socklog-overlay-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/socklog-overlay-amd64.tar.gz -C /
 
 ENTRYPOINT ["/init"]
@@ -38,7 +38,46 @@ with built-in log rotation.
 
 ## Customization
 
-None yet, if you have any ideas we'll gladly accept pull requests!
+### Custom logging rules
+
+`socklog-overlay` works by reading in a series of `s6-log` logging scripts from
+`/etc/socklog.rules`. You can create your own rules by placing a file in
+`/etc/socklog.rules`.
+
+For example, if you wanted to save all errors for messages tagged with the
+"local0" facility, you could create the file `/etc/socklog.rules/local0-error`
+
+```
+-
++^local0\.err
+T
+/var/log/socklog/local0-errors
+```
+
+This will match lines that begin with `local0.err`, prepend them with an ISO8601 timestamp, and save them to the `/var/log/socklog/local0-errors` folder.
+
+Another example, if you wanted to have all syslog messages copied to stdout,
+create a file at `/etc/socklog.rules/forward-stdout`:
+
+```
++
+1
+```
+
+This will match all lines (as indicated by the `+` symbol with an empty regex),
+and forward them to stdout (indicated by the `1` symbol).
+
+More details on how to write `s6-log` logging scripts are available in the
+[s6-log manual](http://skarnet.org/software/s6/s6-log.html).
+
+### Creating logging folders
+
+The `/etc/cont-init.d/~-socklog` script should run last, and its final step
+is to recursively chown `/var/log/socklog`.
+
+Create a script in `/etc/cont-init.d` to make your needed logging folder,
+if it's a subfolder of `/var/log/socklog`, you should be covered. If not,
+you'll likely need to chown it as well, to the `nobody` user.
 
 Ideas I'd like to flesh out:
 
@@ -58,6 +97,12 @@ Then verify the downloaded files:
 ```bash
 $ gpg --verify socklog-overlay-amd64.tar.gz.sig socklog-overlay-amd64.tar.gz
 ```
+
+## Upgrade Notes
+
+`socklog-overlay` version 3.0.0 switched from having the hard-coded
+`log/run` script with log pattern rules, to using the `/etc/socklog.rules`
+folder. If you have a custom `log/run` script, it should continue to work.
 
 ## LICENSE
 
