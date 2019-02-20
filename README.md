@@ -109,9 +109,14 @@ $ gpg --verify socklog-overlay-amd64.tar.gz.sig socklog-overlay-amd64.tar.gz
 
 ## Upgrade Notes
 
+### 3.0.0
+
 `socklog-overlay` version 3.0.0 switched from having the hard-coded
 `log/run` script with log pattern rules, to using the `/etc/socklog.rules`
 folder. If you have a custom `log/run` script, it should continue to work.
+
+### 3.1.0
+Added the `SOCKLOG_TIMESTAMP_FORMAT` environment variable.
 
 ## LICENSE
 
