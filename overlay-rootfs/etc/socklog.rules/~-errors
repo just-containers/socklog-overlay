@@ -4,5 +4,5 @@
 +\.emerg:
 +\.alert:
 +\.crit:
-T
+${SOCKLOG_TIMESTAMP_FORMAT}
 /var/log/socklog/errors

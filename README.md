@@ -42,7 +42,8 @@ with built-in log rotation.
 
 `socklog-overlay` works by reading in a series of `s6-log` logging scripts from
 `/etc/socklog.rules`. You can create your own rules by placing a file in
-`/etc/socklog.rules`.
+`/etc/socklog.rules`. Each directive (selection directive, control directive,
+or action directive) for the logging script should be on its own line.
 
 For example, if you wanted to save all errors for messages tagged with the
 "local0" facility, you could create the file `/etc/socklog.rules/local0-error`
@@ -79,7 +80,15 @@ Create a script in `/etc/cont-init.d` to make your needed logging folder,
 if it's a subfolder of `/var/log/socklog`, you should be covered. If not,
 you'll likely need to chown it as well, to the `nobody` user.
 
-Ideas I'd like to flesh out:
+### Environment variables
+
+* `SOCKLOG_TIMESTAMP_FORMAT` - controls how (or if) a timestamp should be placed
+before every line, defaults to `T`
+  * (empty) - do not insert timestamps into logs
+  * `T` - prepend every line with an ISO 8601 timestamp
+  * `t` - prepend every line with a TAI64N timestamp
+
+## Ideas I'd like to flesh out:
 
 * Setting an environment variable to specify number of files, size, etc
   * Right now this is just using the `s6-log` defaults - 10 files, ~100k per file

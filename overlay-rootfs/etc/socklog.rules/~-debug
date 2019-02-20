@@ -1,3 +1,4 @@
 -
 +^\.debug:
+${SOCKLOG_TIMESTAMP_FORMAT}
 /var/log/socklog/debug

@@ -1,4 +1,4 @@
 -
 +^mail\.
-T
+${SOCKLOG_TIMESTAMP_FORMAT}
 /var/log/socklog/mail

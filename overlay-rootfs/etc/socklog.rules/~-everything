@@ -1,5 +1,5 @@
 +
 -auth\.
 -authpriv\.
-T
+${SOCKLOG_TIMESTAMP_FORMAT}
 /var/log/socklog/everything

@@ -7,5 +7,5 @@
 -^mail\.
 -^news\.
 -^cron\.
-T
+${SOCKLOG_TIMESTAMP_FORMAT}
 /var/log/socklog/messages
