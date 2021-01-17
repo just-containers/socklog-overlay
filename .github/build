@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-SOCKLOG_VERSION="2.2.1"
-SOCKLOG_RELEASE="${SOCKLOG_VERSION}-5"
+SOCKLOG_VERSION="2.2.2"
+SOCKLOG_RELEASE="${SOCKLOG_VERSION}"
 SOCKLOG_SRC="https://github.com/just-containers/socklog/releases/download/v$SOCKLOG_RELEASE"
 
 PKGDIR=$(pwd)/pkg
